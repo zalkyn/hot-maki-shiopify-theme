@@ -1,0 +1,398 @@
+<style>
+    .section-container--{{ section.id }}{
+      margin-top: {{ section.settings.margin_top | append:'px' }};
+      margin-bottom: {{ section.settings.margin_bottom | append:'px' }};
+      padding-top: {{ section.settings.padding_top | append:'px' }};
+      padding-bottom: {{ section.settings.padding_bottom | append:'px' }};
+      /* overflow: hidden; */
+
+    }
+
+
+    @media screen and (max-width: 768px){
+      .section-container--{{ section.id }}{
+        margin-top: {{ section.settings.margin_top_mobile | append:'px' }};
+        /* margin-bottom: {{ section.settings.margin_bottom_mobile | append:'px'  }}; */
+        margin-bottom: -20px;
+        padding-top: {{ section.settings.padding_top_mobile | append:'px' }};
+        padding-bottom: {{ section.settings.padding_bottom_mobile | append:'px' }};
+        /* overflow: hidden; */
+        padding-inline: 15px;
+      }
+
+    }
+  .section-wrapper--{{ section.id }} {
+
+      .--logo-wrapper {
+          line-height: 0;
+          position: relative;
+          img {
+              max-width: 150px;
+              height: auto;
+              @media screen and (max-width: 768px){
+                max-width: 100px;
+              }
+          }
+          .absolute-link-logo{
+            position: absolute;
+            display: block;
+            top:0;
+            left: 0;
+            width: 100%;
+            height:100%;
+          }
+      }
+      .--menu-item-wrapper {
+          display: flex;
+          gap: 30px;
+          align-items: center;
+          @media screen and (max-width: 768px){
+                flex-direction: column;
+                padding-block: 30px;
+          }
+          .--menu-items {
+              display: flex;
+              gap: 30px;
+              align-items: center;
+              @media screen and (max-width: 768px){
+                flex-direction: column;
+              }
+          }
+          a {
+              color: var(--Blue-700, #133775);
+              font-family: "Adieu-Regular";
+              font-size: 16px;
+              font-weight: 900;
+              line-height: 1;
+              text-transform: uppercase;
+              text-decoration: unset;
+          }
+        a.--follow-us {
+            min-width: fit-content;
+            color: var(--Blue-700, #133775);
+            /* font-family: "Omnes Cond"; */
+            font-family: "Adieu-Regular";
+            padding: 20px 30px;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            text-transform: uppercase;
+            text-decoration: unset;
+            border-radius: 200px;
+            border: 3px solid #133775;
+            transition: .5s ease;
+        }
+        a.--follow-us:hover {
+          color: #fff;
+          background: #FF5300;
+          border-color: #FF5300;
+        }
+      }
+  }
+  .section-wrapper--{{ section.id }}.desktop-only {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      transform: translateY(24px);
+      @media(max-width: 768px){
+        display: none;
+      }
+  }
+  /* Styling for mobile header */
+
+  .section-wrapper--{{ section.id }}.mobile-only {
+      display: none;
+      @media(max-width: 768px){
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-inline: 0px;
+      position: relative;
+      /* transform: translateY(24px); */
+      .--mobile-menu-list-container {
+          position: fixed;
+          display: block;
+          border-radius: 10px;
+          bottom: -100vh;
+          left: 10px;
+          width: calc(100% - 20px);
+          height: calc(100vh - 150px);
+          background: #fff;
+          z-index: 11;
+          transition: .5s ease;
+
+      }
+      .--bg-overlay {
+          position: fixed;
+          /* top: 100vh; */
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          /* display: block!important; */
+          background: #0000004d;
+          z-index: -40;
+          transition: .5s ease;
+      }
+      .--bg-overlay.active-drawer {
+          top: 0;
+          z-index: 10;
+          display: block!important;
+      }
+      .--mobile-menu-list-container.active-drawer {
+          height: calc(100vh - 150px);
+          bottom: 0;
+          z-index: 11;
+      }
+      .--close-button {
+          padding: 20px;
+          line-height: 0;
+          border: 1px solid #0000004d;
+          border-radius: 50px;
+      }  
+      }
+
+  }
+
+.section-container--{{ section.id }}{
+  @media screen and (min-width: 750px) {
+    .page-width {
+      padding: 0 2rem;
+  } 
+  }
+   
+}
+</style>
+<section class="section-container--{{ section.id }}">
+  <!-- Header for Desktop -->
+  <div class="section-wrapper--{{ section.id }} page-width desktop-only">
+    <div class="--logo-wrapper">
+      {{ settings.logo | image_url: width: settings.logo.width | image_tag }}
+      <a class="absolute-link-logo" href="{{ shop.url }}"></a>
+    </div>
+    <div class="--menu-item-wrapper">
+      <div class="--menu-items">
+        {% for link in section.settings.menu.links %}
+          <a class="--menu-link" data-id="{{ link.url | split: "#" | last | prepend: "#" }}" href="{{ link.url }}">
+            {{ link.title -}}
+          </a>
+        {% endfor %}
+      </div>
+      {% for block in section.blocks %}
+        {% if block.type == 'social_menu_item' %}
+          <a class="--follow-us" data-idxx="{{ block.settings.url }}" href="{{ block.settings.url }}">
+            {{ block.settings.title -}}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <!-- Header for Mobile devices -->
+  <div class="section-wrapper--{{ section.id }} page-width mobile-only">
+    <div class="--logo-wrapper">
+      {{ settings.logo | image_url: width: settings.logo.width | image_tag }}
+      <a class="absolute-link-logo" href="{{ shop.url }}"></a>
+    </div>
+    <div class="--hamburger">
+      <svg xmlns="http://www.w3.org/2000/svg" width="29" height="20" viewBox="0 0 29 20" fill="none">
+        <line x1="27.5" y1="1.896" x2="2.33496" y2="1.89599" stroke="#133775" stroke-width="3" stroke-linecap="round"/>
+        <line x1="27.5" y1="10.1243" x2="2.33496" y2="10.1243" stroke="#133775" stroke-width="3" stroke-linecap="round"/>
+        <line x1="27.5" y1="18.3525" x2="2.33496" y2="18.3525" stroke="#133775" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="--bg-overlay --close-menu-drawer"></div>
+    <div class="--mobile-menu-list-container">
+      
+      <div class="--menu-item-wrapper">
+        <div class="--close-button --close-menu-drawer">
+          <svg
+            role="presentation"
+            stroke-width="2"
+            focusable="false"
+            width="24"
+            height="24"
+            class="icon icon-close"
+            viewBox="0 0 24 24"
+          >
+            <path d="M17.658 6.343 6.344 17.657M17.658 17.657 6.344 6.343" stroke="currentColor"></path>
+          </svg>
+        </div>
+        <div class="--menu-items">
+          {% for link in section.settings.menu.links %}
+            <a class="--menu-link --close-menu-drawer" data-id="{{ link.url | split: "#" | last | prepend: "#" }}" href="{{ link.url }}">
+              {{ link.title -}}
+            </a>
+          {% endfor %}
+        </div>
+        {% for block in section.blocks %}
+          {% if block.type == 'social_menu_item' %}
+            <a class="--follow-us --close-menu-drawer" data-idxx="{{ block.settings.url }}" href="{{ block.settings.url }}">
+              {{ block.settings.title -}}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+    document.querySelectorAll(".--menu-link").forEach((menuitem)=> {
+      menuitem.addEventListener('click',(e) => {
+          e.preventDefault()
+          document.querySelector(e.currentTarget.dataset.id).scrollIntoView();
+      })
+  })
+  document.querySelector(".--hamburger").addEventListener('click',(e) => {
+          e.preventDefault()
+          document.querySelector(".--mobile-menu-list-container").classList.add("active-drawer");
+          document.querySelector(".--bg-overlay").classList.add("active-drawer");
+          document.querySelector("body").style.overflow = "hidden";
+      })
+  document.querySelectorAll(".--close-menu-drawer").forEach((closeaction)=> {
+          closeaction.addEventListener('click',(e) => {
+          document.querySelector(".--mobile-menu-list-container").classList.remove("active-drawer");
+          document.querySelector(".--bg-overlay").classList.remove("active-drawer");
+          document.querySelector("body").style.overflow = "unset";
+    })
+    })
+  
+  // document.querySelector(".--close-button").addEventListener('click',(e) => {
+  //         e.preventDefault()
+  //         document.querySelector(".--mobile-menu-list-container").classList.remove("active-drawer");
+  //         document.querySelector(".--bg-overlay").classList.remove("active-drawer");
+  //         document.querySelector("body").style.overflow = "unset";
+  //     })
+  // document.querySelector(".--bg-overlay").addEventListener('click',(e) => {
+  //         e.preventDefault()
+  //         document.querySelector(".--mobile-menu-list-container").classList.remove("active-drawer");
+  //         document.querySelector(".--bg-overlay").classList.remove("active-drawer");
+  //         document.querySelector("body").style.overflow = "unset";
+  //     })
+</script>
+
+{% schema %}
+{
+  "name": "Maze Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top  (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom  (Mobile)",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Social Media Link",
+      "type": "social_menu_item",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Follow us"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Maze Header"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,142 @@
+{% if product.metafields.custom.nutritional_info != blank %}
+  <style>
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 99;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    }
+
+    .popup.show {
+      display: block !important;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .popupContent {
+      background: #fef1d7;
+      padding: 80px;
+      max-width: 1000px;
+      border-radius: 45px;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      transform: scale(0.5) translate(-50%, -50%);
+      transition: transform 0.3s ease-in-out;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(10px, 10px);
+    }
+    .popup.show .popupContent {
+      transform: scale(1) translate(-50%, -50%);
+    }
+    .popup-closer{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      position: absolute;
+      right: 40px;
+      top: 20px;
+    }
+    .popup-closer button{
+      cursor: pointer;
+      background-color: transparent;
+      outline: none;
+      border: none;
+      box-shadow: none;
+    }
+    .popup-images{
+      display: grid;
+      grid-template-columns: repeat(1fr);
+      grid-gap: 20px;
+    }
+    .popup-image img{
+      width: 100%;
+      height: 100%;
+      max-height: 550px;
+      object-fit: contain;
+      /* object-fit: cover; */
+      display: block;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media screen and (max-width: 768px){
+      .popupContent {
+        width: 90%;
+        padding: 60px 10px 10px;
+      }
+    }
+  </style>
+
+  <div class="popup hidden">
+    <div class="popupContent">
+      <div class="popup-closer">
+        <button class="closePopup">{% render 'all-icons', name: 'close' %}</button>
+      </div>
+      <div class="popup-images">
+        {% for image in product.metafields.custom.nutritional_info.value %}
+          <div class="popup-image">
+            {{ image | image_url: width: image.width | image_tag }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const openPopupBtns = document.querySelectorAll('.openPopup');
+      const closePopupBtn = document.querySelector('.closePopup');
+      const popup = document.querySelector('.popup');
+      const popupContent = document.querySelector('.popupContent');
+
+      openPopupBtns.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+              e.preventDefault();
+              popup.classList.add('show');
+              document.body.style.overflow = "hidden";
+          });
+      });
+
+      closePopupBtn.addEventListener('click', () => {
+          popup.classList.remove('show');
+          document.body.style.overflow = "";
+      });
+
+      window.addEventListener('click', (e) => {
+          if (e.target === popup) {
+              popup.classList.remove('show');
+              document.body.style.overflow = "";
+          }
+      });
+    });
+  </script>
+{% endif %}
+{% schema %}
+{
+  "name": "Popup Modal",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Select Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Popup Modal"
+    }
+  ]
+}
+{% endschema %}

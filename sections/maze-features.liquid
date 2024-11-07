@@ -1,0 +1,254 @@
+{% liquid
+  assign id = section.id
+%}
+
+<style>
+  .sec2-{{ id }}.page-width {
+    margin-top: {{section.settings.margin_top | append: 'px'}};
+    margin-bottom: {{section.settings.margin_bottom | append: 'px'}};
+    padding-top: {{section.settings.padding_top | append: 'px'}};
+    padding-bottom: {{section.settings.padding_bottom | append: 'px'}};
+    border-radius: 40px;
+    background:  #6DB4E3;
+    padding-inline: 0;
+    
+    overflow: hidden;
+    @media(max-width: 1600px) {
+      margin-inline: 20px;
+    }
+    @media(max-width: 768px) {
+      margin-top: {{section.settings.margin_top_m | append: 'px'}};
+      margin-bottom: {{section.settings.margin_bottom_m | append: 'px'}};
+      padding-top: {{section.settings.padding_top_m | append: 'px'}};
+      padding-bottom: {{section.settings.padding_bottom_m | append: 'px'}};
+      margin-inline: 15px;
+    }
+  }
+
+.--content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @media(max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  .--text-block {
+    padding: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 30px;
+    @media(max-width: 768px){
+      padding: 50px;
+      gap: 30px;
+    }
+    .--single-block {
+        h4.--title {
+          color: var(--Blue-700, #133775);
+          text-align: center;
+          /* font-family: "Omnes SemiCond"; */
+          font-family: "Antique_Olive_Compact_regular";
+          font-size: 40px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 100%;
+          margin: 0 auto 30px;
+          max-width: 300px;
+          @media(max-width: 768px){
+            font-size: 38px;
+          }
+      }
+      p.--content {
+          color: var(--Blue-700, #133775);
+          text-align: center;
+          /* font-family: Adieu; */
+          font-family: "Adieu-Regular";
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 120%;
+          margin: 0 auto;
+          max-width: 350px;
+        @media(max-width: 768px){
+          br {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  .--image-wrapper {
+      line-height: 0;
+      @media(max-width: 768px){
+        grid-row: 1/2;
+      }
+      img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+      }
+  }
+}
+
+  
+</style>
+
+<div
+  class="sec2-{{ id }} page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  {% if settings.animations_reveal_on_scroll %}
+    data-cascade
+  {% endif %}
+>
+  <div class="--content-wrapper">
+    <div class="--text-block">
+      {% for block in section.blocks %}
+        {% if block.type == 'content' %}
+          <div class="--single-block">
+            <h4 class="--title">{{ block.settings.title }}</h4>
+            <p class="--content">{{ block.settings.content }}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="--image-wrapper">
+      {% for block in section.blocks %}
+        {% if block.type == 'image' %}
+          {% unless block.settings.image == blank %}
+            {{ block.settings.image | image_url: width: block.settings.image.width | image_tag }}
+          {% endunless %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Maze Features",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Spacing Desktop"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing Mobile"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_m",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_m",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_top_m",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_m",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "Content",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Text Content"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Maze Features"
+    }
+  ]
+}
+{% endschema %}

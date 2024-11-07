@@ -1,0 +1,616 @@
+<style>
+      .section-container--{{ section.id }}{
+        margin-top: {{ section.settings.margin_top | append:'px' }};
+        margin-bottom: {{ section.settings.margin_bottom | append:'px' }};
+        padding-top: {{ section.settings.padding_top | append:'px' }};
+        padding-bottom: {{ section.settings.padding_bottom | append:'px' }};
+        overflow: hidden;
+      }
+    .section-wrapper--{{ section.id }} {
+      h1, p {
+        margin-block: 0;
+      }
+
+      .slide-{{ section.id }} {
+        position: relative;
+        .image-wrapper.desktop-only{
+
+          line-height: 0;
+          @media screen and (max-width: 768px){
+            display: none;
+          }
+          img {
+              width: 100%;
+              height: auto;
+              max-height: 80vh;
+              object-fit: cover;
+              object-position: center;
+              @media screen and (max-width: 768px){
+                height: unset;
+                min-height: 480px;
+                object-fit: cover;
+              }
+          }
+        }
+        .image-wrapper.mobile-only{
+          line-height: 0;
+          display: none;
+          @media screen and (max-width: 768px){
+            display: block;
+          }
+          img {
+              width: 100%;
+              height: auto;
+
+               @media screen and (max-width: 768px){
+                  height: {{ section.settings.mobile-image-height | append: "vh" }};
+                  min-height: unset;
+                  object-fit: cover;
+                }
+          }
+          .banner--image {
+            min-height: 480px;
+            object-fit: cover;
+          }
+        }
+        .info-block{
+          position: absolute;
+          /* width: calc(100% - 32px); */
+          /* padding-inline: 16px; */
+
+          /* height: 100%; */
+          top: 0;
+          left: 0;
+          h1 {
+              color: var(--Blue-700, #133775);
+              text-align: center;
+              text-shadow: 0px 4px 30.4px rgba(0, 0, 0, 0.10);
+              font-family: "Antique_Olive_Compact_regular";
+              font-size: 140px;
+              font-style: normal;
+              font-weight: 900;
+              line-height: 80%;
+              letter-spacing: -5.6px;
+              text-transform: uppercase;
+              margin-block: 30px;
+              @media screen and (max-width: 768px){
+                font-size: 64px;
+                margin-block: 20px;
+                line-height: 55px;
+                padding-left: 5px;
+                letter-spacing: -5.1px;
+              }
+          }
+          .contents {
+              margin-inline: auto;
+              color: var(--Blue-700, #133775);
+              text-align: center;
+              text-shadow: 0px 4px 30.4px rgba(0, 0, 0, 0.10);
+              font-family: "Omnes_Bold";
+              font-size: 32px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 82%;
+              text-transform: uppercase;
+              @media screen and (max-width: 768px){
+                font-size: 24px;
+                line-height: 30px;
+              }
+          }
+
+        }
+
+        /* Slide content Position */
+        /* Left Column */
+        .info-block.top.left {
+            top: 10px;
+            right: unset;
+            bottom: unset;
+            left: 10px;
+        }
+        .info-block.middle.left {
+            top: 50%;
+            right: unset;
+            bottom: unset;
+            left: 10px;
+            translate: 0 -50%;
+        }
+        .info-block.bottom.left {
+            top: unset;
+            right: unset;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        /* Center Column */
+        .info-block.top.center {
+            top: 10px;
+            right: unset;
+            bottom: unset;
+            left: 50%;
+            translate: -50% 0;
+        }
+        .info-block.middle.center {
+            top: 50%;
+            right: unset;
+            bottom: unset;
+            left: 50%;
+            translate: -50% -50%;
+        }
+        .info-block.bottom.center {
+            top: unset;
+            right: unset;
+            bottom: 10px;
+            left: 50%;
+            translate: -50% 0;
+        }
+
+        /* Right Column */
+        .info-block.top.right {
+            top: 10px;
+            right: 10px;
+            bottom: unset;
+            left: unset;
+        }
+        .info-block.middle.right {
+            top: 50%;
+            right: 10px;
+            bottom: unset;
+            left: unset;
+            translate: 0 -50%;
+        }
+        .info-block.bottom.right {
+            top: unset;
+            right: 10px;
+            bottom: 10px;
+            left: unset;
+        }
+
+        @media screen and (max-width: 768px){
+            /* .info-block.top.left ,
+            .info-block.top.center ,
+            .info-block.top.right , 
+            .info-block.middle.left ,
+            .info-block.middle.center ,
+            .info-block.middle.right ,
+            .info-block.bottom.left ,
+            .info-block.bottom.center ,
+            .info-block.bottom.right{
+                top: unset;
+                right: unset;
+                bottom: unset;
+                left: unset;
+                translate: unset;
+            } */
+            .info-block.top.left ,
+            .info-block.top.center ,
+            .info-block.top.right ,
+            .info-block.middle.left ,
+            .info-block.middle.center ,
+            .info-block.middle.right ,
+            .info-block.bottom.left ,
+            .info-block.bottom.center ,
+            .info-block.bottom.right{
+                top: unset;
+                right: unset;
+                bottom: unset;
+                left: unset;
+                translate: unset;
+                width: 100%;
+            }
+            .info-block.top.left ,
+            .info-block.top.center ,
+            .info-block.top.right 
+            {
+                top: 10px;
+                right: unset;
+                bottom: unset;
+                left: 50%;
+                translate: -50% 0 ;
+            }
+
+            .info-block.middle.left ,
+            .info-block.middle.center ,
+            .info-block.middle.right {
+                top: 50%;
+                right: unset;
+                bottom: unset;
+                left: 50%;
+                translate: -50% -50%;
+            }
+
+            .info-block.bottom.left ,
+            .info-block.bottom.center ,
+            .info-block.bottom.right{
+                top: unset;
+                right: unset;
+                bottom: 10px;
+                left: 50%;
+                translate: -50% 0;
+            }
+        }
+    }
+
+  .swiper-{{ section.id }} {
+        margin-inline: 20px;
+        border-radius: 40px;
+      .button-wrapper {
+        position: absolute;
+        padding: 24px 120px;
+        bottom: 0;
+        width: 100%;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        @media screen and (max-width: 768px){
+          padding: 16px 16px;
+        }
+        .page-{{ section.id }}.swiper-pagination-fraction{
+            color: #fff;
+        }
+        .swiper-nav-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+        .prev-{{ section.id }},
+        .next-{{ section.id }}{
+                border-radius: 24px;
+                background: #FFF;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                @media screen and (max-width: 768px){
+                  width: 24px;
+                  height: 24px;
+                  svg {
+                    width:16px;
+                    height: 16px;
+                  }
+                }
+        }
+        .prev-{{ section.id }}.swiper-button-disabled,
+        .next-{{ section.id }}.swiper-button-disabled{
+               opacity: .5;
+        }
+        .swiper-button-prev.prev-{{ section.id }}::after,
+        .swiper-button-next.next-{{ section.id }}::after{
+          content: none;
+        }
+      }
+    }
+  }
+
+      @media screen and (max-width: 768px){
+        .section-container--{{ section.id }}{
+          margin-top: {{ section.settings.margin_top_mobile | append:'px' }};
+          margin-bottom: {{ section.settings.margin_bottom_mobile | append:'px'  }};
+          padding-top: {{ section.settings.padding_top_mobile | append:'px' }};
+          padding-bottom: {{ section.settings.padding_bottom_mobile | append:'px' }};
+        }
+        .slide-{{ section.id }}{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+</style>
+<section
+  class="section-container--{{ section.id }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  {% if settings.animations_reveal_on_scroll %}
+    data-cascade
+  {% endif %}
+>
+  <div class="section-wrapper--{{ section.id }}">
+    <div class="swiper swiper-{{ section.id }}">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide slide-{{ section.id }}">
+            <div class="image-wrapper desktop-only">
+              {{ block.settings.image | image_url: width: block.settings.image.width | image_tag }}
+            </div>
+            <div class="image-wrapper mobile-only">
+              {% if block.settings.image_mobile != blank %}
+                {{ block.settings.image_mobile | image_url: width: block.settings.image_mobile.width | image_tag }}
+              {% else %}
+                {{
+                  block.settings.image
+                  | image_url: width: block.settings.image.width
+                  | image_tag: class: 'banner--image'
+                }}
+              {% endif %}
+            </div>
+            <!-- Slide Specific Styling Start -->
+            <style>
+              .info-block.info-block--{{ forloop.index }}.{{ section.settings.vertical_alignment }}.{{ section.settings.horizontal_alignment }} {
+                text-align: {{ section.settings.horizontal_alignment }};
+                @media(max-width: 768px){
+                  text-align: center;
+                }
+                h1 {
+                  {% if block.settings.title-width %}
+                      max-width: {{ block.settings.title-width | append: "px" }};
+                  {% else %}
+                     width: 1000px;
+                  {% endif %}
+                  @media(max-width: 768px){
+                    width: 100%;
+                    /* width: 390px; */
+                  }
+                }
+                .contents {
+                  max-width: {{ block.settings.content-width | append: "px" }};
+                  @media(max-width: 768px){
+                    /* width: 90%; */
+                  }
+                }
+              }
+            </style>
+            <!-- Slide Specific Styling End -->
+            <div
+              class="info-block info-block--{{ forloop.index }} {% if section.settings.vertical_alignment == 'top' %} top {% elsif section.settings.vertical_alignment == 'middle' %} middle {% else %} bottom {% endif %} {% if section.settings.horizontal_alignment == 'left' %} left {% elsif section.settings.horizontal_alignment == 'center' %} center {% else %} right {% endif %} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {% if settings.animations_reveal_on_scroll %}
+                data-cascade
+                style="--animation-order: {{ forloop.index }};"
+              {% endif %}
+            >
+              <div class="contents">{{ block.settings.content }}</div>
+              <h1>{{ block.settings.title }}</h1>
+              
+              {% unless block.settings.button_url == blank %}
+                <a class="button" href="{{ block.settings.button_url }}"> {{ block.settings.button_text }} </a>
+              {% endunless %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      {% if section.blocks.size > 1 and section.settings.hide_navigation == false %}
+        <div class="button-wrapper">
+          <div class="swiper--pagination page-{{ section.id }}"></div>
+          <div class="swiper-nav-wrapper">
+            <div class="swiper--button-prev prev-{{ section.id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M19 12L5 12M5 12L12 19M5 12L12 5" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="swiper--button-next next-{{ section.id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Initialize Swiper -->
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    new Swiper(".swiper-{{ section.id }}", {
+        slidesPerView: 1,
+        zoom: true,
+        navigation: {
+          nextEl: ".next-{{ section.id }}",
+          prevEl: ".prev-{{ section.id }}",
+        },
+        pagination: {
+          el: ".page-{{ section.id }}",
+         type: 'fraction',
+        },
+      });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Maze Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Desktop Spacing"
+    },
+    {
+      "type": "radio",
+      "id": "vertical_alignment",
+      "label": "Vertical Alignment",
+      "options": [
+         {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "middle",
+            "label": "Middle"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          }
+        ],
+        "default": "top"
+    },
+    {
+      "type": "radio",
+      "id": "horizontal_alignment",
+      "label": "Horizontal Alignmentt",
+      "options": [
+         {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left"
+    },
+    {
+     "type": "range",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "id": "mobile-image-height",
+      "label": "Mobile Image Height",
+      "default": 90
+      
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_navigation",
+      "label": "Hide Navigation",
+      "default": false
+    },
+
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top  (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom  (Mobile)",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Slide",
+      "type": "slide",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "number",
+          "id": "title-width",
+          "label": "Title Width"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "number",
+          "id": "content-width",
+          "label": "Content Width"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image (Mobile)"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button Url"
+        }
+
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Maze Banner"
+    }
+  ]
+}
+{% endschema %}

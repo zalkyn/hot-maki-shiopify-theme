@@ -1,0 +1,150 @@
+<style>
+  .pd-tab-accordion-container{
+    @media(min-width: 769px) {
+      .pd-tab-accordion-desktop{
+        display: block;
+      }
+      .pd-tab-accordion-mobile{
+        display: none;
+      }
+    }
+    @media(max-width: 768px) {
+      .pd-tab-accordion-desktop{
+        display: none;
+      }
+      .pd-tab-accordion-mobile{
+        display: block;
+      }
+    }
+
+    margin-top: 24px;
+    .pd-tab-summery {
+      display: grid;
+      grid-template-columns: 1fr 17px;
+      grid-column-gap: 30px;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 16px 12px 16px 12px;
+      border-top: 1px solid #D9D9D9;
+      cursor: pointer;
+
+      h2{
+        margin: 0;
+        color: #000;
+        font-size: 14px;
+        font-style: normal;
+        line-height: normal;
+        text-transform: uppercase;
+      }
+      .pd-tab-icons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        .plus{
+          position: absolute;
+          transition: .4s;
+        }
+        .minus{
+          position: absolute;
+          visibility: hidden;
+          transition: .4s;
+        }
+      }
+
+      @media(max-width: 768px) {
+        grid-template-columns: 1fr 14px;
+        grid-column-gap: 10px;
+        padding: 12px 8px 12px 8px;
+      }
+    }
+    .pd-tabs-wrapper.active{
+      .pd-tab-icons {
+        .plus{
+          visibility: hidden;
+          transition: .4s;
+          transform: rotate(90deg);
+        }
+        .minus{
+          visibility: visible;
+          transition: .4s;
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .pd-tab-details {
+      box-sizing: border-box;
+      padding-inline: 12px;
+      height: 0px;
+      overflow: hidden;
+
+      .pdt-richtext,
+      .description,
+      .pdt-page{
+        color: #000;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        @media(max-width: 768px) {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+</style>
+
+<div class="pd-tab-accordion-container">
+  <div class="pd-tab-accordion-{{ class }}">
+    {% for block in tabs %}
+      <div class="pd-tabs-wrapper">
+        <div class="pd-tab-summery">
+          <h2>{{ block.settings.heading }}</h2>
+          <div class="pd-tab-icons">
+            {% render 'tab-icons', name: 'plus' %}
+            {% render 'tab-icons', name: 'minus' %}
+          </div>
+        </div>
+        <div class="pd-tab-details">
+          {% case block.settings.tab_content %}
+            {% when 'richtext' %}
+              <div class="pdt-richtext">
+                {{ block.settings.richtext }}
+              </div>
+            {% when 'page' %}
+              <div class="pdt-page">
+                {{ block.settings.page.content }}
+              </div>
+            {% when 'description' %}
+              <div class="pdt-description">
+                {{ product.description }}
+              </div>
+            {% when 'blog' %}
+              <a href="{{ block.settings.article.url }}" class="pdt-blog">
+                {% unless block.settings.article.image == blank %}
+                  {{
+                    block.settings.article.image
+                    | image_url: width: block.settings.article.image.width, crop: 'center'
+                    | image_tag
+                  }}
+                {% endunless %}
+                {{ block.settings.article.content }}
+              </a>
+          {% endcase %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", e => {
+    new Accordion('.pd-tab-accordion-{{ class }}', {
+      closeAll: true,
+      initOpenIndex: 1,
+      duration: 500,
+      activeClass: 'active'
+    })
+  })
+</script>

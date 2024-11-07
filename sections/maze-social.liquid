@@ -1,0 +1,392 @@
+{{ 'maze-product-card-1.css' | asset_url | stylesheet_tag }}
+<style>
+    .row-container--{{ section.id }}{
+      padding-top : {{ section.settings.padding_top }}px;
+      padding-bottom : {{ section.settings.padding_bottom }}px;
+      margin-top: {{ section.settings.margin-top }}px;
+      margin-bottom: {{ section.settings.margin-bottom }}px;
+      overflow: hidden;
+    }
+    .row-container--{{ section.id }} .prodSwiper {
+      overflow: visible;
+      width: 100vw;
+      @media(max-width: 768px) {
+        overflow : visible;
+      }
+    }
+    .swiper-button-prev.prev-{{ section.id }}:after, .swiper-button-next.next-{{ section.id }}:after {
+      content: unset!important;
+    }
+
+    .swiper-button-prev.child-prev:after, .swiper-button-next.child-next:after {
+      content: unset!important;
+    }
+  .row-container--{{ section.id }} .slider-titles {
+         width: 100%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .row-container--{{ section.id }} .slider_title{
+        color: #133775;
+        text-align: center;
+        /* font-family: "Omnes SemiCond"; */
+        font-family: "Antique_Olive_Compact_regular";
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 100%;
+        /* margin: auto; */
+        /* max-width: 350px; */
+    }
+    .row-container--{{ section.id }} h2{
+        color: #000;
+        font-size: 50px;
+        line-height: 121.5%;
+        text-transform: uppercase;
+        text-align: left;
+        @media(max-width:768px){
+          font-size:32px;
+          line-height:36px;
+        }
+    }
+
+    .row-container--{{ section.id }} .featured_collection_slides {
+      text-align: center;
+      font-size: 16px;
+      background: red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .row-container--{{ section.id }} .slider-title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* width: max-content; */
+      margin: 10px auto;
+      text-align: center;
+      gap: 30px;
+      padding-bottom: 50px;
+       @media only screen and (max-width: 768px) {
+         padding-bottom: 30px;
+       }
+    }
+    .row-container--{{ section.id }} .slider-title-wrapper  h3 {
+        margin: 0;
+    }
+    .row-container--{{ section.id }} .slider-title-wrapper a{
+        min-width: fit-content;
+        color: var(--Blue-700, #133775);
+        /* font-family: "Omnes Cond"; */
+        font-family: "Adieu-Regular";
+        padding: 20px 30px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: 1em;
+        text-transform: uppercase;
+        text-decoration: unset;
+        border-radius: 200px;
+        border: 3px solid #133775;
+           transition: .5s ease;
+         @media only screen and (max-width: 768px) {
+           font-size: 18px;
+           padding: 10px 20px;
+         }
+      
+      }
+      .row-container--{{ section.id }} .slider-title-wrapper a:hover {
+        color: #fff;
+        background: #FF5300;
+        border-color: #FF5300;
+      }
+    .row-container--{{ section.id }} .featured-collection-prev, .featured-collection-next{
+      cursor: pointer;
+    }
+    .only-swiper-wrapper--{{ section.id }} {
+      position: relative;
+    }
+    .row-container--{{ section.id }} .swiper-button-disabled{
+      opacity: 0.3;
+    }
+
+
+    @media only screen and (max-width: 768px) {
+      .row-container--{{ section.id }} .slider-title-wrapper {
+        width: 100%;
+      }
+      .row-container--{{ section.id }} .slider_title {
+        font-size: 36px;
+        font-weight: 700;
+        text-align: left;
+      }
+      .prev-{{ section.id }},
+      .next-{{ section.id }}{
+        display: none;
+      }
+
+    }
+</style>
+<style>
+  .row-container--{{ section.id }} {
+    @media(max-width:768px){
+      padding-top : {{ section.settings.padding_top_mobile }}px;
+      padding-bottom : {{ section.settings.padding_bottom_mobile }}px;
+      margin-top: {{ section.settings.margin_top_mobile }}px;
+      margin-bottom: {{ section.settings.margin_bottom_mobile }}px;
+    }
+    a.button-font.desktop-only {
+        font-family: Oswald;
+        font-size: 18px;
+        display: flex;
+        @media(max-width:768px){
+          display: none;
+        }
+    }
+    a.button-font.mobile-only {
+        font-family: Oswald;
+        display: none;
+        @media(max-width:768px){
+          font-size: 16px;
+          display: flex;
+          width: 100%;
+          justify-content: center;
+          margin-top: 30px;
+      }
+    }
+.--social-image-wrapper {
+    line-height: 0;
+    border: 4px solid #133775;
+    border-radius: 40px;
+    overflow: hidden;
+    transform: rotate(-18deg);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    img {
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
+    a.absolute-link {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+}
+
+  }
+.swiper-slide.slide-{{ section.id }} {
+    overflow: visible;
+}  
+</style>
+
+<div class="row-container--{{ section.id }} ">
+  <div class="slider-title-wrapper page-width">
+    <div class="slider-titles ">
+      {% if section.settings.title != blank %}
+        <h1 class="slider_title section--title">{{ section.settings.title }}</h1>
+      {% else %}
+        <!-- <h1 class="slider_title section--title">{{ section.settings.collection.title }}</h1> -->
+      {% endif %}
+    </div>
+    <a href="{{ section.settings.url }}" > Follow us </a>
+  </div>
+  <div class="swiper prodSwiper swiper--{{ section.id }}">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide parentSlide slide-{{ section.id }}">
+          <div class="--social-image-wrapper">
+            {{ block.settings.image | image_url: width: block.settings.image.width | image_tag }}
+            <a class="absolute-link" href="{{ block.settings.url }}"></a>
+          </div>
+          
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-button-prev prev-{{ section.id }}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="22" viewBox="0 0 27 22" fill="none">
+        <path d="M24.5 11L5.64286 11" stroke="black" stroke-width="2.35714" stroke-linecap="square"/>
+        <path d="M12.2025 19.6428L2.77394 11L12.2025 2.35711" stroke="black" stroke-width="2.35714" stroke-linecap="square"/>
+      </svg>
+    </div>
+    <div class="swiper-button-next next-{{ section.id }}">
+      <svg width="27" height="22" viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 14L26 14" stroke="#000" stroke-width="3" stroke-linecap="square"></path>
+        <path d="M17.6514 3L29.6514 14L17.6514 25" stroke="#000" stroke-width="3" stroke-linecap="square"></path>
+      </svg>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+      new Swiper('.swiper--{{ section.id }}', {
+          slidesPerView: 1.5,
+          loop: true,
+          spaceBetween: 40,
+          centeredSlides: false,
+          navigation: {
+            nextEl: '.next-{{ section.id }}',
+            prevEl: '.prev-{{ section.id }}',
+          },
+          breakpoints: {
+            100: {
+              slidesPerView: 2,
+              spaceBetween: 40,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 40,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 40,
+            },
+            1600: {
+              slidesPerView: 4,
+              spaceBetween: 70,
+            },
+          },
+        });
+    });
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "Maze Social",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "url"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top  (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom  (Mobile)",
+      "default": 20
+    }
+  ],
+    "blocks": [
+    {
+      "name": "Image",
+      "type": "image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Maze Social"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

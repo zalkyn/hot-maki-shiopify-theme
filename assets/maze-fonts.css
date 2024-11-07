@@ -1,0 +1,29 @@
+/* @font-face {
+  font-family: "Font name";
+  src: url("{{ '[font-file-name]' | asset_url }}") format("[font-format]");
+} */
+@font-face {
+  font-family: "Adieu-Regular";
+  src: url("https://cdn.shopify.com/s/files/1/0700/8383/8184/files/Adieu-Regular.woff?v=1723621875") format("woff");
+}
+@font-face {
+  font-family: "Antique_Olive_Compact_regular";
+  src: url("https://cdn.shopify.com/s/files/1/0700/8383/8184/files/Antique_Olive_Compact_regular.woff?v=1723621875") format("woff");
+}
+@font-face {
+  font-family: "Omnes_Bold";
+  src: url("https://cdn.shopify.com/s/files/1/0700/8383/8184/files/Omnes_Bold.woff?v=1723621875") format("woff");
+}
+@font-face {
+  font-family: "Omnes_Cond_Black";
+  src: url("https://cdn.shopify.com/s/files/1/0700/8383/8184/files/Omnes_Cond_Black.woff?v=1723621875") format("woff");
+}
+@font-face {
+  font-family: "Omnes_Cond_Bold";
+  src: url("https://cdn.shopify.com/s/files/1/0700/8383/8184/files/Omnes_Cond_Bold.woff?v=1723621875") format("woff");
+}
+
+/* @font-face {
+  font-family: "Adieu-Regular";
+  src: url("https://cdn.shopify.com/s/files/1/0700/8383/8184/files/Adieu-Regular.woff?v=1723621875") format("woff");
+} */

@@ -1,0 +1,326 @@
+<style>
+  .section-container--{{ section.id }}{
+    margin-top: {{ section.settings.margin_top | append:'px' }};
+    margin-bottom: {{ section.settings.margin_bottom | append:'px' }};
+    padding-top: {{ section.settings.padding_top | append:'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | append:'px' }};
+    background: {{ section.settings.bg-color }};
+    overflow: hidden;
+    color: #FEF1D7;
+  }
+
+
+  @media screen and (max-width: 768px){
+    .section-container--{{ section.id }}{
+      margin-top: {{ section.settings.margin_top_mobile | append:'px' }};
+      margin-bottom: {{ section.settings.margin_bottom_mobile | append:'px'  }};
+      padding-top: {{ section.settings.padding_top_mobile | append:'px' }};
+      padding-bottom: {{ section.settings.padding_bottom_mobile | append:'px' }};
+    }
+
+  }
+
+.section-wrapper--{{ section.id }}  {
+  padding-inline: 15px;
+  @media screen and (max-width: 768px){
+     padding-inline: 15px;
+  }
+  .--top-row {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      align-items: center;
+      margin-bottom: 80px;
+      @media screen and (max-width: 768px){
+        text-align: center;
+        grid-template-columns: 1fr;
+        margin-bottom: 50px;
+      }
+      .--logo-wrapper{
+        position: relative;
+        img {
+          @media screen and (max-width: 768px){
+            max-width: 50%;
+            height: auto;
+          }
+        }
+        .absolute-link-logo{
+            position: absolute;
+            display: block;
+            top:0;
+            left: 0;
+            width: 100%;
+            height:100%;
+          }
+      }
+      .footer-block__newsletter {
+          h2.footer-block__heading.inline-richtext {
+            color: #FEF1D7;
+            font-family: "Antique_Olive_Compact_regular";
+            font-size: 40px;
+            line-height: 1;
+            max-width: 500px;
+            margin-block: 0 50px;
+            @media screen and (max-width: 768px){
+              font-size: 36px;
+              max-width: 100%;
+              margin-block: 0 30px;
+            }
+        }
+      }
+    form {
+      .field:before,
+      .field:after{
+        content: unset;
+      }
+      input.--field__input {
+          background: unset;
+          border-radius: 200px;
+          padding: 30px 35px;
+          border: 2px solid #FEF1D7;
+          color: #FEF1D7;
+          width: 100%;
+          @media screen and (max-width: 768px){
+            padding: 25px 30px;
+          }
+      }
+      input.--field__input:placeholder-shown {
+          color: #FEF1D7;
+          font-family: "Adieu-Regular";
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 100%;
+          text-transform: uppercase;
+      }
+      input.--field__input:focus-visible {
+          outline: unset;
+          outline-offset: unset;
+          box-shadow: unset;
+      }
+      button.newsletter-form__button.field__button {
+          top: 50%;
+          transform: translate(-10px, -50%);
+      }
+    }
+  }
+  .--bottom-row {
+    display: flex;
+    justify-content: space-between;
+    color: #FEF1D7;
+    text-align: center;
+    font-family: "Adieu-Regular";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 136%;
+    @media screen and (max-width: 768px){
+      flex-direction: column-reverse;
+      gap: 5px;
+    }
+  }
+}
+</style>
+<section class="section-container--{{ section.id }}">
+  <div class="section-wrapper--{{ section.id }} page-width">
+    <div class="--top-row">
+      <div class="--logo-wrapper">
+        {{ settings.logo | image_url: width: settings.logo.width | image_tag }}
+        <a class="absolute-link-logo" href="{{ shop.url }}"></a>
+      </div>
+      <div class="footer-block__newsletter">
+              {%- if section.settings.title != blank -%}
+                <h2 class="footer-block__heading inline-richtext">{{ section.settings.title }}</h2>
+              {%- endif -%}
+              {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="newsletter-form__field-wrapper">
+                  <div class="field">
+                    <input
+                      id="NewsletterForm--{{ section.id }}"
+                      type="email"
+                      name="contact[email]"
+                      class="--field__input"
+                      value="{{ form.email }}"
+                      aria-required="true"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      autocomplete="email"
+                      {% if form.errors %}
+                        autofocus
+                        aria-invalid="true"
+                        aria-describedby="ContactFooter-error"
+                      {% elsif form.posted_successfully? %}
+                        aria-describedby="ContactFooter-success"
+                      {% endif %}
+                      placeholder="Email"
+                      required
+                    >
+                    {% comment %}
+                    <label class="field__label" for="NewsletterForm--{{ section.id }}">
+                      {{ 'newsletter.label' | t }}
+                    </label>
+                    {% endcomment %}
+                    
+                    <button
+                      type="submit"
+                      class="newsletter-form__button field__button"
+                      name="commit"
+                      id="Subscribe"
+                      aria-label="{{ 'newsletter.button_label' | t }}"
+                    >
+                      {% render 'icon-arrow' %}
+                    </button>
+                  </div>
+                  {%- if form.errors -%}
+                    <small class="newsletter-form__message form__message" id="ContactFooter-error">
+                      {%- render 'icon-error' -%}
+                      {{- form.errors.translated_fields.email | capitalize }}
+                      {{ form.errors.messages.email -}}
+                    </small>
+                  {%- endif -%}
+                </div>
+                {%- if form.posted_successfully? -%}
+                  <h3
+                    class="newsletter-form__message newsletter-form__message--success form__message"
+                    id="ContactFooter-success"
+                    tabindex="-1"
+                    autofocus
+                  >
+                    {% render 'icon-success' -%}
+                    {{- 'newsletter.success' | t }}
+                  </h3>
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+    </div>
+    <div class="--bottom-row">
+      <div class="--copyright-text">Hot Maki® All Rights Reservered. © 2024 Hot Maki, Inc.</div>
+      <div class="--terms-services">Terms & Services</div>
+      <div class="--privacy-policy">Privacy Policy</div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Maze Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "color",
+      "id": "bg-color",
+      "label": "Background Color"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top  (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom  (Mobile)",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Support",
+      "type": "support",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Maze Footer"
+    }
+  ]
+}
+{% endschema %}

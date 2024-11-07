@@ -1,0 +1,31 @@
+<div class="product-card-wrapper maki-card">
+  <div class="intial-card" style="background: {{ product.metafields.custom.card_background }};">
+    <div class="image-wrapper">
+      {% if product.metafields.custom.custom_thumbnail != blank %}
+        {{
+          product.metafields.custom.custom_thumbnail
+          | image_url: width: product.metafields.custom.custom_thumbnail.width
+          | image_tag: class: '--featured-image'
+        }}
+      {% else %}
+        {{
+          product.featured_image
+          | image_url: width: product.featured_image.width
+          | image_tag: class: '--featured-image'
+        }}
+      {% endif %}
+      <a class="absolute-link" href="{{ product.url }}"> </a>
+    </div>
+    <div class="info-block">
+      <h6 class="product-title">{{ product.title }}</h6>
+      {{ product.description }}
+      <a class="absolute-link" href="{{ product.url }}"> </a>
+    </div>
+  </div>
+  <div class="hover-card">
+    <div class="hover-image-wrapper">
+      {{ product.media[1] | image_url: width: product.media[1].width | image_tag: class: '--hover-image' }}
+    </div>
+    <a class="learn-more-button" href="{{ product.url }}"> learn More </a>
+  </div>
+</div>

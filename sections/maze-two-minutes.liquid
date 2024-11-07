@@ -1,0 +1,292 @@
+<style>
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .section-container--{{ section.id }} {
+    margin-top: {{ section.settings.margin_top | append:'px' }};
+    margin-bottom: {{ section.settings.margin_bottom | append:'px' }};
+    padding-top: {{ section.settings.padding_top | append:'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | append:'px' }};
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 768px) {
+    .section-container--{{ section.id }} {
+      margin-top: {{ section.settings.margin_top_mobile | append:'px' }};
+      margin-bottom: {{ section.settings.margin_bottom_mobile | append:'px' }};
+      padding-top: {{ section.settings.padding_top_mobile | append:'px' }};
+      padding-bottom: {{ section.settings.padding_bottom_mobile | append:'px' }};
+      overflow: hidden;
+    }
+  }
+
+  .section-container--{{ section.id }} .--icon-wrapper {
+    position: absolute;
+    line-height: 0;
+    max-width: max-content;
+    top: 0;
+    right: 260px;
+    z-index: 1;
+
+    @media screen and (max-width: 768px) {
+      right: 100px;
+    }
+
+    img {
+      position: absolute;
+
+      @media screen and (max-width: 768px) {
+        max-width: 100px;
+        height: auto;
+      }
+    }
+
+    img.--icon-content {
+      animation: spin 5s linear infinite;
+    }
+  }
+
+  .section-container--{{ section.id }} .--overlay-wrapper {
+    line-height: 0;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    width: 100%;
+    max-width: 1400px;
+    transform: translateX(-50%);
+    /* height: 100%; */
+    transition: top 0.4s ease-out;
+
+    @media(max-width: 768px) {
+      top: 100px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  img.--overlay-sushi.--sushi-desktop {
+    display: block;
+
+    @media(max-width: 768px) {
+      display: none;
+    }
+  }
+
+  img.--overlay-sushi.--sushi-mobile {
+    display: none;
+
+    @media(max-width: 768px) {
+      display: block;
+    }
+  }
+
+  .section-container--{{ section.id }} .section-wrapper--{{ section.id }} h2.--section-title {
+    color: #133775;
+    font-family: "Antique_Olive_Compact_regular";
+    font-size: 80px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+    max-width: 1163px;
+    margin: auto;
+    position: relative;
+    z-index: 1;
+    margin-block: 80px;
+
+    @media screen and (max-width: 768px) {
+      font-size: 36px;
+      background: unset;
+      margin-block: 120px;
+    }
+  }
+</style>
+
+<section class="section-container--{{ section.id }}">
+  {% unless section.settings.icon == blank %}
+    <div class="--icon-wrapper">
+      {{ section.settings.icon | image_url: width: section.settings.icon.width | image_tag }}
+      {{
+        section.settings.icon_content
+        | image_url: width: section.settings.icon_content.width
+        | image_tag: class: '--icon-content'
+      }}
+    </div>
+  {% endunless %}
+  {% unless section.settings.image == blank %}
+    <div class="--overlay-wrapper">
+      {% unless section.settings.image == blank %}
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag: class: '--overlay-sushi --sushi-desktop'
+        -}}
+      {%- endunless %}
+      {% unless section.settings.image_mobile == blank -%}
+        {{-
+          section.settings.image_mobile
+          | image_url: width: section.settings.image_mobile.width
+          | image_tag: class: '--overlay-sushi --sushi-mobile'
+        }}
+      {% endunless %}
+    </div>
+  {% endunless %}
+  <div class="section-wrapper--{{ section.id }} page-width">
+    <h2 class="--section-title">{{ section.settings.title }}</h2>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const section = document.querySelector('.section-container--{{ section.id }}');
+    const overlayWrapper = section.querySelector('.--overlay-wrapper');
+
+    function handleScroll() {
+        const sectionRect = section.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        if (sectionRect.top < windowHeight && sectionRect.bottom > 0) {
+            const progress = (windowHeight - sectionRect.top) / (windowHeight + sectionRect.height);
+            let topValue = 100 * (1 - progress); 
+
+            topValue = Math.min(Math.max(topValue, 0), 200);
+
+            overlayWrapper.style.top = `${topValue}px`;
+        }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+});
+</script>
+{% schema %}
+{
+  "name": "Maze Two Minutes",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Overlay Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Overlay Image (Mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "Icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_content",
+      "label": "Icon Content"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top  (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom  (Mobile)",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Maze Two Minutes"
+    }
+  ]
+}
+{% endschema %}

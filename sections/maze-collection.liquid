@@ -1,0 +1,379 @@
+{{ 'maze-product-card-1.css' | asset_url | stylesheet_tag }}
+<style>
+    .row-container--{{ section.id }}{
+      padding-top : {{ section.settings.padding_top }}px;
+      padding-bottom : {{ section.settings.padding_bottom }}px;
+      margin-top: {{ section.settings.margin-top }}px;
+      margin-bottom: {{ section.settings.margin-bottom }}px;
+      background:  {{ section.settings.section-bg-color }};
+      overflow: hidden;
+    }
+    .row-container--{{ section.id }} .prodSwiper {
+      @media(max-width: 768px) {
+        overflow : visible;
+      }
+    }
+    .swiper-button-prev.prev-{{ section.id }}:after, .swiper-button-next.next-{{ section.id }}:after {
+      content: unset!important;
+    }
+
+    .swiper-button-prev.child-prev:after, .swiper-button-next.child-next:after {
+      content: unset!important;
+    }
+  .row-container--{{ section.id }} .slider-titles {
+         width: 100%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .row-container--{{ section.id }} .slider_title{
+        color: #133775;
+        text-align: center;
+        /* font-family: "Omnes SemiCond"; */
+        font-family: "Antique_Olive_Compact_regular";
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 100%;
+        margin: auto;
+        max-width: 400px;
+        @media(max-width: 768px){
+          /* font-size: 48px;
+          line-height: 1;
+          width: 215px; */
+        }
+    }
+    .row-container--{{ section.id }} h2{
+        color: #000;
+        font-size: 50px;
+        line-height: 121.5%;
+        text-transform: uppercase;
+        text-align: left;
+        @media(max-width:768px){
+          font-size:32px;
+          line-height:36px;
+        }
+    }
+
+    .row-container--{{ section.id }} .featured_collection_slides {
+      text-align: center;
+      font-size: 16px;
+      background: red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .row-container--{{ section.id }} .slider-title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* width: max-content; */
+      margin: 10px auto;
+      text-align: center;
+      gap: 30px;
+      padding-block: 100px;
+       @media(max-width:768px){
+         padding-block: 50px;
+       }
+    }
+    .row-container--{{ section.id }} .slider-title-wrapper  h3 {
+        margin: 0;
+    }
+    .row-container--{{ section.id }} .slider-title-wrapper a{
+      /* color : #000000; */
+      font-size : 16px;
+      font-weight : 500;
+      min-width: fit-content;
+    }
+    .row-container--{{ section.id }} .featured-collection-prev, .featured-collection-next{
+      cursor: pointer;
+    }
+    .only-swiper-wrapper--{{ section.id }} {
+      position: relative;
+    }
+    .row-container--{{ section.id }} .swiper-button-disabled{
+      opacity: 0.3;
+    }
+
+    .row-container--{{ section.id }} .feature-collection-pagination{
+      margin-top: 10px;
+      width: 100%;
+      max-width : 100%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 5px;
+      border-radius: 8px;
+      display:none;
+    }
+    .row-container--{{ section.id }} .feature-collection-pagination .swiper-pagination-bullet{
+      background-color: #1b0177;
+      width: 8px;
+      height: 6px;
+      margin: 0;
+      border-radius: 9999px;
+      transition-property: all;
+      transition-duration: .35s;
+    }
+    .row-container--{{ section.id }} .feature-collection-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active{
+      background-color: #1b0177;
+      width: 16px;
+    }
+
+    @media only screen and (max-width: 890px) {
+      .row-container--{{ section.id }} .slider-title-wrapper {
+        width: 100%;
+      }
+      .row-container--{{ section.id }} .slider_title {
+        font-size: 36px;
+        line-height: 1;
+        width: 300px;
+        font-weight: 700;
+      }
+      .prev-{{ section.id }},
+      .next-{{ section.id }}{
+        display: none;
+      }
+
+    }
+</style>
+<style>
+  .row-container--{{ section.id }} {
+    @media(max-width:768px){
+      padding-top : {{ section.settings.padding_top_mobile }}px;
+      padding-bottom : {{ section.settings.padding_bottom_mobile }}px;
+      margin-top: {{ section.settings.margin_top_mobile }}px;
+      margin-bottom: {{ section.settings.margin_bottom_mobile }}px;
+    }
+    a.button-font.desktop-only {
+        font-family: Oswald;
+        font-size: 18px;
+        display: flex;
+        @media(max-width:768px){
+          display: none;
+        }
+    }
+    a.button-font.mobile-only {
+        font-family: Oswald;
+        display: none;
+        @media(max-width:768px){
+          font-size: 16px;
+          display: flex;
+          width: 100%;
+          justify-content: center;
+          margin-top: 30px;
+      }
+    }
+    .swiper.prodSwiper.swiper--{{ section.id }}.desktop-only{
+      display: block;
+      @media(max-width:768px){
+        display: none;
+      }
+    }
+    .swiper-mobile-grid.mobile-only {
+      display: none;
+       @media(max-width:768px){
+         display: grid;
+         gap: 20px;
+         grid-template-columns: 1fr;
+         
+       }
+    }
+
+
+  }
+</style>
+
+<div class="row-container--{{ section.id }} page-width" id="{{ section.settings.view_id }}">
+  <div class="slider-title-wrapper">
+    <div class="slider-titles">
+      {% if section.settings.title != blank %}
+        <h1 class="slider_title section--title">{{ section.settings.title }}</h1>
+      {% else %}
+        <!-- <h1 class="slider_title section--title">{{ section.settings.collection.title }}</h1> -->
+      {% endif %}
+    </div>
+  </div>
+  <div class="swiper prodSwiper swiper--{{ section.id }} desktop-only">
+    <div class="swiper-wrapper">
+      {% for product in section.settings.collection.products %}
+        <div class="swiper-slide parentSlide slide-{{ section.id }}">
+          {% render 'maze-product-card-1', product: product, forloop: forloop, template: template.name %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-button-prev prev-{{ section.id }}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="22" viewBox="0 0 27 22" fill="none">
+        <path d="M24.5 11L5.64286 11" stroke="black" stroke-width="2.35714" stroke-linecap="square"/>
+        <path d="M12.2025 19.6428L2.77394 11L12.2025 2.35711" stroke="black" stroke-width="2.35714" stroke-linecap="square"/>
+      </svg>
+    </div>
+    <div class="swiper-button-next next-{{ section.id }}">
+      <svg width="27" height="22" viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 14L26 14" stroke="#000" stroke-width="3" stroke-linecap="square"></path>
+        <path d="M17.6514 3L29.6514 14L17.6514 25" stroke="#000" stroke-width="3" stroke-linecap="square"></path>
+      </svg>
+    </div>
+    <div class="feature-collection-pagination"></div>
+  </div>
+  <div class="swiper-mobile-grid mobile-only">
+    {% for product in section.settings.collection.products %}
+        <div class="swiper-slide-mobile slide-{{ section.id }}">
+          {% render 'maze-product-card-1', product: product, forloop: forloop, template: template.name %}
+        </div>
+      {% endfor %}
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+      new Swiper('.swiper--{{ section.id }}', {
+          slidesPerView: 1.5,
+          loop: false,
+          spaceBetween: 20,
+          pagination: {
+            el: '.feature-collection-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.next-{{ section.id }}',
+            prevEl: '.prev-{{ section.id }}',
+          },
+          breakpoints: {
+            100: {
+              slidesPerView: 1,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 20,
+            },
+          },
+        });
+    });
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "Maze Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "view_id",
+      "label": "View ID"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Margin Bottom (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top  (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom  (Mobile)",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Maze Collection"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
